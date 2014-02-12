@@ -30,9 +30,11 @@ Date: & 2014-02-13 \\\hline
 Project: & Programming Language C++\\\hline 
 \end{tabular}
 \chapter{History}
+The implementation of std::future mixes the concept of a future and the concept of asynchronous operation. This has lead to several arguments on the mailing list and other discussions on possible extensions or limitations of std::future and its surrounding standard library infrastructure.
+
 \section{Discussion on c++std-parallel mailing list}
 
-In 2013 there have been several discussions raised by papers \textbf{(find numbers)} that asked for extending \tcode{std::future} API with a member function \tcode{futre::then()} that allows to specify a function that will run after the future object becomes ready. The invocation of .then() would then return a future wrapping the original future object, etc. 
+In 2013 there have been several discussions raised by papers (N3857,N3784, etc) \textbf{(find numbers)} that asked for extending \tcode{std::future} API with a member function \tcode{future::then()} that allows to specify a function that will run after the future object becomes ready, relying on the asynchronousity of the underlying operation making the future's shared state ready. The invocation of .then() would then return a future wrapping the original future object, etc. 
 
 Peter strongly objected to the abstraction of future gain "fat" by giving it more than the semantic of a \emph{"ticket for a value or exception to be obtained later"}. While a concrete implementation such as std::future in the world of C++11 requires some hooking to a synchronization mechanism, the abstraction should be agnostic about where the value it eventually receives comes from. His colleague Luc Bläser also supports his opinion and provides examples how chaining of tasks could be achieved with existing C++11 mechanisms.
 
@@ -62,7 +64,15 @@ We conclude that there is a need to clarify underlying concepts, before we conti
 \chapter{Introduction}
 All the above issues led to the discovery by Olivier Giroux while discussing with Peter that there is a need for a concept \emph{Future} for representing the "later value" that is more light-weight than std::future and a separate concept for the synchronization aspect of std::future that comes close to a "task completion" that might happen to also be supported by std::future or not.
 
+\section{Attempt to show how future::then could be done without changing future}
+
 \section{Attempt to specify the core of a concept Future}
+
+\section{Channel vs. Future-Promise}
+Refer to channel. Kohlhoff's paper N3896
+
+alternative views on the requested mechanism of composeable asynchronous operations (async/future as is of C++14 do not compose).
+
 
 What goes in here? get(), what else?
 \section{Open Issues to be Discussed}
